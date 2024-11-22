@@ -9,6 +9,7 @@ import (
 )
 
 func Register(c *gin.Context) {
+	// TODO User DTO struct
 	var user models.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {

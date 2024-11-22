@@ -8,7 +8,7 @@ import (
 )
 
 // Generate jwt token
-func GenerateJwtToken(userId uint, role string) (string, error) {
+func GenerateJwtToken(userId string, role string) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": userId,
 		"role":    role,

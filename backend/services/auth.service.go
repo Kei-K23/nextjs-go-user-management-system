@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/Kei-K23/nextjs-go-auth/database"
 	"github.com/Kei-K23/nextjs-go-auth/models"
@@ -16,6 +17,7 @@ func Register(user *models.User) error {
 	}
 
 	user.Password = hashedPassword
+	user.CreatedAt = time.Now()
 	if err := database.DB.Create(user).Error; err != nil {
 		return err
 	}
@@ -27,7 +29,7 @@ func Login(email, password string) (string, error) {
 	var user models.User
 
 	// Not found the user
-	if err := database.DB.Where("email = ?").First(&user).Error; err != nil {
+	if err := database.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		// TODO Implement advanced error handling
 		return "", fmt.Errorf("user not found")
 	}

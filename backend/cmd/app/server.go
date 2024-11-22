@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/Kei-K23/nextjs-go-auth/config"
 	"github.com/Kei-K23/nextjs-go-auth/database"
 	"github.com/Kei-K23/nextjs-go-auth/models"
+	"github.com/Kei-K23/nextjs-go-auth/routes"
 )
 
 func main() {
@@ -19,4 +21,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error during migration: %v", err.Error())
 	}
+
+	port := config.GetEnv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	r := routes.SetupRotes()
+
+	if err := r.Run(":" + port); err != nil {
+		log.Fatal("Error when starting server")
+	}
+
+	fmt.Printf("Server is running on PORT: %s\n", port)
 }
