@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"time"
 
 	"github.com/Kei-K23/nextjs-go-auth/config"
@@ -19,8 +20,20 @@ func GenerateJwtToken(userId string, role string) (string, error) {
 }
 
 // Parse token
-func ParseToken(token string) (*jwt.Token, error) {
-	return jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
+func ParseToken(tokenStr string) (*jwt.Token, jwt.MapClaims, error) {
+	claims := jwt.MapClaims{}
+
+	token, err := jwt.ParseWithClaims(tokenStr, claims, func(t *jwt.Token) (interface{}, error) {
 		return []byte(config.GetEnv("JWT_SECRET")), nil
 	})
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	if !token.Valid {
+		return nil, nil, errors.New("invalid token")
+	}
+
+	return token, claims, nil
 }
