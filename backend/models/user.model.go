@@ -13,6 +13,7 @@ type User struct {
 	Email     string    `json:"email" gorm:"unique"`
 	Password  string    `json:"-"`
 	Role      string    `json:"role"`
+	Status    string    `json:"status"` // Inactive, Active, Ban, TemporaryBan
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	DeletedAt time.Time `json:"deleted_at"`

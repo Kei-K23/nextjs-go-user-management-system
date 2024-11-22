@@ -19,6 +19,7 @@ func SetupRotes() *gin.Engine {
 		// Protected routes
 		protectedRv1 := rv1.Group("/")
 		protectedRv1.Use(middlewares.JwtAuthMiddleware())
+		protectedRv1.Use(middlewares.CheckUserStatusMiddleware())
 		// Get current auth user
 		protectedRv1.GET("users/me", controllers.GetAuthUser)
 	}

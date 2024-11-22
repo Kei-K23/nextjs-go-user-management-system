@@ -7,7 +7,6 @@ import (
 )
 
 func GetAuthUser(c *gin.Context) {
-
 	user, isUserExist := c.Get("user")
 	if !isUserExist {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})

@@ -18,6 +18,8 @@ func Register(user *models.User) error {
 
 	user.Password = hashedPassword
 	user.CreatedAt = time.Now()
+	user.Status = "Inactive" // By default, all user account inactive
+
 	if err := database.DB.Create(user).Error; err != nil {
 		return err
 	}
@@ -37,6 +39,10 @@ func Login(email, password string) (string, error) {
 	// Verify the user password
 	if err := utils.VerifyPassword(password, user.Password); err != nil {
 		return "", fmt.Errorf("invalid credentials")
+	}
+
+	if user.Status != "Active" {
+		return "", fmt.Errorf("user account is inactive. Please make sure your account is active before login")
 	}
 
 	// Generate jwt token
