@@ -18,6 +18,59 @@ func GetAuthUser(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+func UpdateAuthUser(c *gin.Context) {
+	authUserValue, isUserExist := c.Get("user")
+	if !isUserExist {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	authUser, ok := authUserValue.(models.User)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user data"})
+		c.Abort()
+		return
+	}
+
+	var user models.User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	updatedUser, err := services.UpdateUser(authUser.ID, &user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error when updating user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, updatedUser)
+}
+
+func DeleteAuthUser(c *gin.Context) {
+	authUserValue, isUserExist := c.Get("user")
+	if !isUserExist {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	authUser, ok := authUserValue.(models.User)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user data"})
+		c.Abort()
+		return
+	}
+
+	err := services.DeleteUser(authUser.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error when deleting user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "User account successfully deleted"})
+}
+
 func GetUserById(c *gin.Context) {
 	userId := c.Param("id")
 	if userId == "" {
