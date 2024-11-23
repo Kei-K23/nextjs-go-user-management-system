@@ -107,4 +107,9 @@ export const deleteUser = async (id: string) => {
   return response.data;
 };
 
+export const deleteUsers = async (ids: string[]) => {
+  const response = await api.post(`/users/bulk`, { ids });
+  return response.data;
+};
+
 export default api;

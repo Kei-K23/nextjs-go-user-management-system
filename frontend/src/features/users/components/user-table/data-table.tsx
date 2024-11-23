@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -30,6 +30,10 @@ import {
 } from "@/components/ui/select";
 
 import { Trash2 } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteUsers } from "@/lib/api";
+import { toast } from "sonner";
+import { User } from "../../types";
 
 interface UserDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -40,6 +44,7 @@ export function UserDataTable<TData, TValue>({
   columns,
   data,
 }: UserDataTableProps<TData, TValue>) {
+  const queryClient = useQueryClient();
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -58,8 +63,22 @@ export function UserDataTable<TData, TValue>({
   });
 
   const selectedRows = useMemo(() => {
-    return table.getSelectedRowModel().rows;
+    return table.getSelectedRowModel().rows.map((row) => row.original?.id);
   }, [table.getSelectedRowModel().rows]);
+
+  const deleteUsersMutation = useMutation({
+    mutationFn: async () => {
+      return await deleteUsers(selectedRows);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Selected user accounts deleted successfully");
+      table.resetRowSelection();
+    },
+    onError: () => {
+      toast.success("Failed to delete selected user accounts");
+    },
+  });
 
   return (
     <div>
@@ -97,8 +116,18 @@ export function UserDataTable<TData, TValue>({
           </Select>
         </div>
         {!!selectedRows.length && (
-          <Button variant={"destructive"}>
-            <Trash2 /> Delete All
+          <Button
+            onClick={() => deleteUsersMutation.mutate()}
+            disabled={deleteUsersMutation.status === "pending"}
+            variant={"destructive"}
+          >
+            {deleteUsersMutation.status === "pending" ? (
+              <>Deleting...</>
+            ) : (
+              <>
+                <Trash2 /> Delete All
+              </>
+            )}
           </Button>
         )}
       </div>

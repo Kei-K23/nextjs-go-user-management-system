@@ -44,7 +44,7 @@ func SetupRotes() *gin.Engine {
 		protectedRv1.POST("users", middlewares.CheckAdminMiddleware(), controllers.CreateUser)
 		protectedRv1.PATCH("users/:id", middlewares.CheckAdminMiddleware(), controllers.UpdateUser)
 		protectedRv1.DELETE("users/:id", middlewares.CheckAdminMiddleware(), controllers.DeleteUser)
-		protectedRv1.DELETE("users/bulk", middlewares.CheckAdminMiddleware(), controllers.DeleteUsers)
+		protectedRv1.POST("users/bulk", middlewares.CheckAdminMiddleware(), controllers.DeleteUsers)
 
 		// Other functions...
 	}
