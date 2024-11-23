@@ -149,3 +149,22 @@ func DeleteUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "User account successfully deleted"})
 }
+
+func DeleteUsers(c *gin.Context) {
+	var userIds struct {
+		IDs []string `json:"ids"`
+	}
+
+	if err := c.ShouldBindJSON(&userIds); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := services.DeleteUsers(userIds.IDs)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error when deleting users"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "User's accounts successfully deleted"})
+}

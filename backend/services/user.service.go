@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/Kei-K23/nextjs-go-auth/database"
@@ -99,6 +100,21 @@ func DeleteUser(id string) error {
 
 	// Delete
 	if err := database.DB.Delete(&user).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Bulk delete
+func DeleteUsers(ids []string) error {
+	// Check if the list is empty
+	if len(ids) == 0 {
+		return fmt.Errorf("no user IDs provided")
+	}
+
+	// Bulk delete using WHERE IN clause
+	if err := database.DB.Where("id IN ?", ids).Delete(&models.User{}).Error; err != nil {
 		return err
 	}
 
