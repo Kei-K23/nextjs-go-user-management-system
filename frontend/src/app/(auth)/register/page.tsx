@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { register, isRegistering } = useAuth();
+  const { register, registerStatus } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,8 +64,12 @@ export default function RegisterPage() {
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">
-              <Button type="submit" disabled={isRegistering} className="w-full">
-                {isRegistering ? "Registering..." : "Register"}
+              <Button
+                type="submit"
+                disabled={registerStatus === "pending"}
+                className="w-full"
+              >
+                {registerStatus === "pending" ? "Registering..." : "Register"}
               </Button>
             </CardFooter>
           </form>

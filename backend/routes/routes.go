@@ -1,13 +1,26 @@
 package routes
 
 import (
+	"time"
+
 	"github.com/Kei-K23/nextjs-go-auth/controllers"
 	"github.com/Kei-K23/nextjs-go-auth/middlewares"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRotes() *gin.Engine {
 	r := gin.Default()
+
+	// Define CORS config
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // Frontend domain
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length", "Authorization"},
+		AllowCredentials: true,           // Allow cookies or Authorization headers
+		MaxAge:           12 * time.Hour, // Cache preflight requests
+	}))
 
 	// API version v1
 	rv1 := r.Group("/api/v1")

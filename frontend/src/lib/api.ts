@@ -19,29 +19,29 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      const refreshToken = localStorage.getItem("refresh_token");
-      try {
-        const { data } = await api.post("/auth/refresh", {
-          refresh_token: refreshToken,
-        });
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("refresh_token", data.refresh_token);
-        return api(originalRequest);
-      } catch {
-        localStorage.removeItem("token");
-        localStorage.removeItem("refresh_token");
-        window.location.href = "/login";
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+// api.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
+//     if (error.response.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
+//       const refreshToken = localStorage.getItem("refresh_token");
+//       try {
+//         const { data } = await api.post("/auth/refresh", {
+//           refresh_token: refreshToken,
+//         });
+//         localStorage.setItem("token", data.token);
+//         localStorage.setItem("refresh_token", data.refresh_token);
+//         return api(originalRequest);
+//       } catch {
+//         localStorage.removeItem("token");
+//         localStorage.removeItem("refresh_token");
+//         window.location.href = "/login";
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export const login = async (email: string, password: string) => {
   const response = await api.post("/auth/login", { email, password });
@@ -57,8 +57,6 @@ export const register = async (
     username,
     email,
     password,
-    role: "User",
-    status: "Inactive",
   });
   return response.data;
 };

@@ -19,6 +19,7 @@ func Register(user *models.User) error {
 	user.Password = hashedPassword
 	user.CreatedAt = time.Now()
 	user.Status = "Inactive" // By default, all user account inactive
+	user.Status = "User"     // By default, all user account role is user
 
 	if err := database.DB.Create(user).Error; err != nil {
 		return err
