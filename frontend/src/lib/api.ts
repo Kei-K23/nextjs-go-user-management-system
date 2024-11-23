@@ -1,6 +1,7 @@
 import { AuthResponse } from "@/features/auth/types";
 import { User } from "@/features/users/types";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
@@ -14,7 +15,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("nextjs_go_ums_access_token");
+  const token = Cookies.get("nextjs_go_ums_access_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

@@ -1,19 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import useProtectRoute from "@/features/auth/hooks/useProtectRoute";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function DashboardPage() {
-  const { authUser, isLoadingAuthUser, logout } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoadingAuthUser && !authUser) {
-      router.push("/login");
-    }
-  }, [authUser, router, isLoadingAuthUser]);
+  useProtectRoute();
+  const { authUser, logout } = useAuth();
 
   return (
     <div className="space-y-4">
