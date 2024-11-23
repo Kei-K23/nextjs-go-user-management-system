@@ -1,3 +1,4 @@
+import { AuthResponse } from "@/features/auth/types";
 import { User } from "@/features/users/types";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
@@ -44,7 +46,10 @@ api.interceptors.request.use((config) => {
 // );
 
 export const login = async (email: string, password: string) => {
-  const response = await api.post("/auth/login", { email, password });
+  const response = await api.post<AuthResponse>("/auth/login", {
+    email,
+    password,
+  });
   return response.data;
 };
 
@@ -62,7 +67,7 @@ export const register = async (
 };
 
 export const getCurrentUser = async () => {
-  const response = await api.get("/users/me");
+  const response = await api.get<User>("/users/me");
   return response.data;
 };
 

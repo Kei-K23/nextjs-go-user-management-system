@@ -39,6 +39,7 @@ func Login(email, password string) (string, error) {
 
 	// Verify the user password
 	if err := utils.VerifyPassword(password, user.Password); err != nil {
+		fmt.Println(err, password, user.Password)
 		return "", fmt.Errorf("invalid credentials")
 	}
 

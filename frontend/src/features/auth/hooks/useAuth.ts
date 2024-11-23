@@ -4,15 +4,16 @@ import { LoginCredentials, RegisterCredentials } from "../types";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import Cookie from "js-cookie";
 
 export function useAuth() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const {
-    data: user,
-    isLoading: isLoadingUser,
-    error: getUserError,
+    data: authUser,
+    isLoading: isLoadingAuthUser,
+    error: getAuthUserError,
   } = useQuery({
     queryKey: ["users", "me"],
     queryFn: getCurrentUser,
@@ -23,9 +24,13 @@ export function useAuth() {
       return await login(email, password);
     },
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
+      Cookie.set("nextjs_go_ums_access_token", data.access_token, {
+        expires: 0.5,
+      });
+
       queryClient.invalidateQueries({ queryKey: ["users", "me"] });
-      router.push("/dashboard");
+      toast.success(data.message || "Login successful!");
+      router.push("/");
     },
     onError: (error: AxiosError) => {
       // TODO name typescript happy
@@ -47,15 +52,15 @@ export function useAuth() {
   });
 
   const logout = () => {
-    localStorage.removeItem("token");
+    Cookie.remove("nextjs_go_ums_access_token");
     queryClient.clear();
     router.push("/login");
   };
 
   return {
-    user,
-    getUserError,
-    isLoadingUser,
+    authUser,
+    getAuthUserError,
+    isLoadingAuthUser,
     login: loginMutation.mutate,
     loginStatus: loginMutation.status,
     register: registerMutation.mutate,
