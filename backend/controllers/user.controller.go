@@ -88,7 +88,21 @@ func GetUserById(c *gin.Context) {
 }
 
 func GetAllUsers(c *gin.Context) {
-	users, err := services.GetAllUsers()
+
+	authUserValue, isUserExist := c.Get("user")
+	if !isUserExist {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	authUser, ok := authUserValue.(models.User)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user data"})
+		c.Abort()
+		return
+	}
+
+	users, err := services.GetAllUsers(authUser.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error when retrieving users"})
 		return

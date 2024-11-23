@@ -37,10 +37,10 @@ func GetUserById(id string) (*models.User, error) {
 	return &user, nil
 }
 
-func GetAllUsers() (*[]models.User, error) {
+func GetAllUsers(excludeUserID string) (*[]models.User, error) {
 	var user []models.User
 
-	if err := database.DB.Order("created_at DESC").Find(&user).Error; err != nil {
+	if err := database.DB.Where("id != ?", excludeUserID).Order("created_at DESC").Find(&user).Error; err != nil {
 		return nil, err
 	}
 

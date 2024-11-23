@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 export default function Header() {
   const { authUser, logout } = useAuth();
   return (
-    <header className="border-b">
+    <header className="border-b px-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto py-2">
         <Link href={"/"}>UMS</Link>
         <div className="flex items-center gap-3">
