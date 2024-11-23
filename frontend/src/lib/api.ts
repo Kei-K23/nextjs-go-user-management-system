@@ -88,7 +88,7 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (id: string) => {
-  const response = await api.get(`/users/${id}`);
+  const response = await api.get<User>(`/users/${id}`);
   return response.data;
 };
 

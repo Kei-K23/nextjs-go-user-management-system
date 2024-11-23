@@ -1,10 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/features/auth/hooks/useAuth";
-import useProtectRoute from "@/features/auth/hooks/useProtectRoute";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import useProtectRoute from "@/features/auth/hooks/use-protect-route";
 import { columns } from "@/features/users/components/user-table/columns";
 import { UserDataTable } from "@/features/users/components/user-table/data-table";
-import { useUsers } from "@/features/users/hooks/useUser";
+import { useUsers } from "@/features/users/hooks/use-user";
 import Link from "next/link";
 
 export default function DashboardPage() {

@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useAuth } from "./useAuth";
+import { useAuth } from "./use-auth";
 
 export default function useProtectRoute() {
   const { authUser, isLoadingAuthUser } = useAuth();

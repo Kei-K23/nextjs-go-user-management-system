@@ -1,6 +1,6 @@
 "use client";
-import UserCreateForm from "@/features/users/components/user-create-form";
-import { useUsers } from "@/features/users/hooks/useUser";
+import UserForm from "@/features/users/components/user-form";
+import { useUsers } from "@/features/users/hooks/use-user";
 
 export default function CreateUserPage() {
   const { createUser, createUserStatus } = useUsers();
@@ -8,7 +8,7 @@ export default function CreateUserPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Create User</h1>
-      <UserCreateForm
+      <UserForm
         onSubmit={createUser}
         isLoading={createUserStatus === "pending"}
       />

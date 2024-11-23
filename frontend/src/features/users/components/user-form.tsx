@@ -16,7 +16,7 @@ interface UserCreateFormProps {
   isLoading: boolean;
 }
 
-export default function UserCreateForm({
+export default function UserForm({
   initialData,
   onSubmit,
   isLoading,
@@ -51,15 +51,17 @@ export default function UserCreateForm({
           required
         />
       </div>
-      <div>
-        <Input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
+      {!!!initialData && (
+        <div>
+          <Input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+      )}
       <div>
         <Select value={role} onValueChange={setRole}>
           <SelectTrigger>
