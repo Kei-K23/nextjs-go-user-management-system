@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { User } from "../types";
 
-export function useAuth() {
+export function useUsers() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
