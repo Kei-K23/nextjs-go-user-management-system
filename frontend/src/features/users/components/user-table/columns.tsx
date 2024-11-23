@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { UserTableType } from "../../types";
+import { UserActionCell } from "./user-action-cell";
 
 export const columns: ColumnDef<UserTableType>[] = [
   {
@@ -27,5 +28,12 @@ export const columns: ColumnDef<UserTableType>[] = [
   {
     accessorKey: "created_at",
     header: "Created At",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const { id } = row.original;
+      return <UserActionCell userId={id} />;
+    },
   },
 ];
