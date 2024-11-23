@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { User } from "@/features/users/types";
 import { toast } from "sonner";
 import UserForm from "@/features/users/components/user-form";
+import { Trash2 } from "lucide-react";
 
 export default function EditUser() {
   const router = useRouter();
@@ -55,19 +56,22 @@ export default function EditUser() {
   return (
     <div>
       <div className="space-y-4">
-        <h1 className="text-2xl font-bold">Edit User</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Edit User</h1>
+          <Button
+            variant="destructive"
+            onClick={() => deleteMutation.mutate(id)}
+            disabled={deleteMutation.isPending}
+          >
+            <Trash2 />
+            {deleteMutation.isPending ? "Deleting..." : "Delete User"}
+          </Button>
+        </div>
         <UserForm
           initialData={user}
           onSubmit={updateMutation.mutate}
           isLoading={updateMutation.isPending}
         />
-        <Button
-          variant="destructive"
-          onClick={() => deleteMutation.mutate(id)}
-          disabled={deleteMutation.isPending}
-        >
-          {deleteMutation.isPending ? "Deleting..." : "Delete User"}
-        </Button>
       </div>
     </div>
   );

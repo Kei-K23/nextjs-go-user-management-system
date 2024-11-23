@@ -4,6 +4,7 @@ import useProtectRoute from "@/features/auth/hooks/use-protect-route";
 import { columns } from "@/features/users/components/user-table/columns";
 import { UserDataTable } from "@/features/users/components/user-table/data-table";
 import { useUsers } from "@/features/users/hooks/use-user";
+import { UserPlus } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
@@ -15,7 +16,9 @@ export default function DashboardPage() {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">User Management</h1>
         <Link href="/users/new">
-          <Button>Create User</Button>
+          <Button>
+            <UserPlus /> Create User
+          </Button>
         </Link>
       </div>
       {isLoadingUsers ? (

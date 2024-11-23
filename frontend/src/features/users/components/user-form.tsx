@@ -24,8 +24,8 @@ export default function UserForm({
   const [username, setUsername] = useState(initialData?.username || "");
   const [email, setEmail] = useState(initialData?.email || "");
   const [password, setPassword] = useState(initialData?.password || "");
-  const [role, setRole] = useState(initialData?.role || "user");
-  const [status, setStatus] = useState(initialData?.status || "Active");
+  const [role, setRole] = useState(initialData?.role || "User");
+  const [status, setStatus] = useState(initialData?.status || "Inactive");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
