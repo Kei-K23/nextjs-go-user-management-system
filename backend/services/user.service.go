@@ -39,7 +39,7 @@ func GetUserById(id string) (*models.User, error) {
 func GetAllUsers() (*[]models.User, error) {
 	var user []models.User
 
-	if err := database.DB.Find(&user).Error; err != nil {
+	if err := database.DB.Order("created_at DESC").Find(&user).Error; err != nil {
 		return nil, err
 	}
 
