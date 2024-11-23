@@ -12,7 +12,7 @@ type User struct {
 	Username  string    `json:"username" gorm:"unique"`
 	Email     string    `json:"email" gorm:"unique"`
 	Password  string    `json:"-"`
-	Role      string    `json:"role"`
+	Role      string    `json:"role"`   // User, Admin
 	Status    string    `json:"status"` // Inactive, Active, Ban, TemporaryBan
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

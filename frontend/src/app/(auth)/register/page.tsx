@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,6 +9,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -64,7 +64,7 @@ export default function RegisterPage() {
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">
-              <Button type="submit" disabled={isRegistering}>
+              <Button type="submit" disabled={isRegistering} className="w-full">
                 {isRegistering ? "Registering..." : "Register"}
               </Button>
             </CardFooter>
