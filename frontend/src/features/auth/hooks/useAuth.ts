@@ -32,9 +32,9 @@ export function useAuth() {
       toast.success(data.message || "Login successful!");
       router.push("/");
     },
-    onError: (error: AxiosError) => {
-      // TODO name typescript happy
-      toast.error(error.response?.data?.error || "Login failed!");
+    onError: (error: AxiosError<{ error: string }>) => {
+      const errorMessage = error.response?.data?.error || "Login failed!";
+      toast.error(errorMessage);
     },
   });
 
@@ -47,6 +47,7 @@ export function useAuth() {
       toast.success(data.message);
     },
     onError: () => {
+      // TODO handle server response error
       toast.error("Register failed!");
     },
   });

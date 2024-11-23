@@ -83,7 +83,7 @@ export const deleteCurrentUser = async () => {
 };
 
 export const getAllUsers = async () => {
-  const response = await api.get("/users");
+  const response = await api.get<User[]>("/users");
   return response.data;
 };
 
@@ -98,7 +98,7 @@ export const createUser = async (data: Partial<User>) => {
 };
 
 export const updateUser = async (id: string, data: Partial<User>) => {
-  const response = await api.patch(`/users/${id}`, data);
+  const response = await api.patch<User>(`/users/${id}`, data);
   return response.data;
 };
 
